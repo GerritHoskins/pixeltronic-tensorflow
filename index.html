@@ -6,7 +6,6 @@
         <div class="main">
             <button type="button" onclick="init()">Start</button>
             <video id="webcam" autoplay playsinline width="640" height="480"></video>
-            <div id="webcam-container"></div>
             <div id="label-container"></div>
         </div>
     </body>
@@ -22,6 +21,19 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
+    }
+    .progress-bar-container {
+        margin-bottom: 10px;
+    }
+    .progress-bar {
+        width: 0%;
+        height: 20px;
+        text-align: center;
+        color: white;
+        transition: width 0.5s;
+    }
+    .label-name {
+        margin-right: 10px;
     }
 </style>
 
@@ -75,10 +87,12 @@
 
         // append elements to the DOM
         //document.getElementById("webcam-container").appendChild(webcam.canvas);
-        labelContainer = document.getElementById("label-container");
+        /*labelContainer = document.getElementById("label-container");
         for (let i = 0; i < maxPredictions; i++) { // and class labels
             labelContainer.appendChild(document.createElement("div"));
-        }
+        }*/
+
+        setupLabelContainer();
     }
 
     async function loop() {
@@ -89,12 +103,45 @@
 
     // run the webcam image through the image model
     async function predict() {
-        // predict can take in an image, video or canvas html element
         const prediction = await model.predict(video);
         for (let i = 0; i < maxPredictions; i++) {
-            const classPrediction =
-                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-            labelContainer.childNodes[i].innerHTML = classPrediction;
+            const classPrediction = prediction[i].className + ": " + (prediction[i].probability.toFixed(2) * 100) + "%";
+
+            // Update label text
+            labelContainer.childNodes[i].childNodes[0].textContent = classPrediction;
+
+            // Update progress bar width and color
+            const progressBar = labelContainer.childNodes[i].childNodes[1];
+            progressBar.style.width = (prediction[i].probability.toFixed(2) * 100) + '%';
+            progressBar.style.backgroundColor = getColorForLabel(prediction[i].className);
+        }
+    }
+
+    // Function to return a color based on the label
+    function getColorForLabel(label) {
+        switch (label) {
+            case 'Label1': return 'blue';
+            case 'Label2': return 'green';
+            // Add more cases for different labels
+            default: return 'gray';
+        }
+    }
+
+    // Initialize label container with progress bars
+    function setupLabelContainer() {
+        for (let i = 0; i < maxPredictions; i++) {
+            const labelDiv = document.createElement('div');
+            labelDiv.className = 'progress-bar-container';
+
+            const labelName = document.createElement('span');
+            labelName.className = 'label-name';
+            labelDiv.appendChild(labelName);
+
+            const progressBar = document.createElement('div');
+            progressBar.className = 'progress-bar';
+            labelDiv.appendChild(progressBar);
+
+            labelContainer.appendChild(labelDiv);
         }
     }
 </script>
