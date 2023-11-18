@@ -34,7 +34,7 @@
     // the link to your model provided by Teachable Machine export panel
     const URL = "./";
 
-    let model, webcam, labelContainer, maxPredictions;
+    let model, webcam, video, labelContainer, maxPredictions;
 
     async function setupCamera() {
         const video = document.getElementById('webcam');
@@ -56,9 +56,6 @@
         const modelURL = URL + "model.json";
         const metadataURL = URL + "metadata.json";
 
-        const video = await setupCamera();
-        video.play();
-
         // load the model and metadata
         // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
         // or files from your local hard drive
@@ -71,6 +68,9 @@
         //webcam = new tmImage.Webcam(800, 800, flip); // width, height, flip
         //await webcam.setup(); // request access to the webcam
         //await webcam.play();
+        
+        video = await setupCamera();
+        video.play();
         window.requestAnimationFrame(loop);
 
         // append elements to the DOM
@@ -90,7 +90,7 @@
     // run the webcam image through the image model
     async function predict() {
         // predict can take in an image, video or canvas html element
-        const prediction = await model.predict(webcam.canvas);
+        const prediction = await model.predict(video);
         for (let i = 0; i < maxPredictions; i++) {
             const classPrediction =
                 prediction[i].className + ": " + prediction[i].probability.toFixed(2);
