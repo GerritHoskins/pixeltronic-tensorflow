@@ -87,9 +87,11 @@
 
         setupLabelContainer();
     }
-
-    await init();
     
+    document.addEventListener("DOMContentLoaded", async (event) => {
+        await init();
+    });
+       
     async function setupCamera() {
         const video = document.getElementById('webcam');
         const stream = await navigator.mediaDevices.getUserMedia({
