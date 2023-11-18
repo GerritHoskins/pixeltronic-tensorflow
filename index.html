@@ -4,7 +4,7 @@
     </head>
     <body>
         <div class="main">           
-            <video id="webcam" autoplay playsinline height="320" width="320"></video>
+            <video id="webcam" autoplay playsinline></video>
             <div id="label-container"></div>
         </div>
     </body>
@@ -20,6 +20,12 @@
         align-items: center;
         height: 100vh;
     }
+    #webcam {
+        width: 100%;          /* Full width of the screen */
+        height: auto;         /* Maintain the aspect ratio */
+        /*object-fit: cover;    /* Cover the whole area, may crop video */
+        object-fit: contain;  /*Uncomment this line to fit the whole video without cropping */
+    }
     .progress-bar-container {
         margin-bottom: 10px;
     }
@@ -33,7 +39,6 @@
         padding: 0px 4px;
     }
     #label-container {
-        max-width: 320px;
         width: 100%;
         margin-top: 1rem;
     }
