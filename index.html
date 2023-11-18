@@ -24,6 +24,9 @@
     }
     .progress-bar-container {
         margin-bottom: 10px;
+        padding: 2px 4px;
+        position: relative;
+        border-radius: 4px;
     }
     .progress-bar {
         width: 0%;
@@ -33,7 +36,9 @@
         transition: width 0.5s;
     }
     .label-name {
+        position: absolute;
         margin-right: 10px;
+        color: white;
     }
 </style>
 
@@ -121,7 +126,7 @@
     function getColorForLabel(label) {
         switch (label) {
             case 'Relaxed': return 'blue';
-            case 'Curious': return 'yellow';
+            case 'Curious': return 'teal';
             case 'Happy': return 'green';
             case 'Aggresive': return 'red';
             case 'Scared': return 'purple';
