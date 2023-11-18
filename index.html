@@ -13,7 +13,7 @@
 
 <style>
     body {
-        background: dimgrey;
+        background: white;
     }
     .main {
         display: flex;
@@ -120,8 +120,12 @@
     // Function to return a color based on the label
     function getColorForLabel(label) {
         switch (label) {
-            case 'Label1': return 'blue';
-            case 'Label2': return 'green';
+            case 'Relaxed': return 'blue';
+            case 'Curious': return 'yellow';
+            case 'Happy': return 'green';
+            case 'Aggresive': return 'red';
+            case 'Scared': return 'purple';
+            case 'Playful': return 'orange';
             // Add more cases for different labels
             default: return 'gray';
         }
